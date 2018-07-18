@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 一个有内涵的人
+title: 爱玩青年
 subtitle:
 description: 喜欢吃，喜欢玩，热爱生活，热爱学习。
 keywords:
-author: 小滔
+author: Me~滔
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://yoursite.com/child
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -79,7 +79,7 @@ theme: yilia
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: root@149.28.226.5:blog/.git
+  repo: root@149.28.226.5:/usr/local/blogRepo/hexo
   branch: master
   
 jsonContent:
