@@ -4,9 +4,6 @@ date: 2018-07-26 10:48:42
 tags:
 
 
-
-
-
 ---
 
 ##### 简单介绍一下 [Retrofit](https://square.github.io/retrofit/)
@@ -71,22 +68,24 @@ tags:
 - 进行网络请求（Request）和获取返回结果（Response）
 
   ```java
-  Retrofit retrofit = new Retrofit.Builder()//// 获取 Retrofit 的构造器,通过构造器构造 Retrofit 实例
-          .baseUrl(API_BASE_URL) //baseUrl 要与配置接口中的请求方法中的 url 拼接
-          .addConverterFactory(GsonConverterFactory.create())//转换器是 Gson 转换器，通过 GsonConverterFactory 获得
-          .client(NetWordStudyApplication.getHttpClient().build()) //使用 OKHttp 进行网络请求
+  // 获取 Retrofit 的构造器,通过构造器构造 Retrofit 实例
+  Retrofit retrofit = new Retrofit.Builder()
+          //baseUrl 要与配置接口中的请求方法中的 url 拼接
+          .baseUrl(API_BASE_URL) 
+          //转换器是 Gson 转换器，通过 GsonConverterFactory 获得
+          .addConverterFactory(GsonConverterFactory.create())
+          //使用 OKHttp 进行网络请求
+          .client(NetWordStudyApplication.getHttpClient().build()) 
           .build();
-  
-  GitHubClient client = retrofit.create(GitHubClient.class);//获得对应接口的网络请求
-  
-  Call<List<GitHubRepo>> call = client.reposForUser("Xiao");//进行网络请求，并且获取请求结果
-  
+  //获得对应接口的网络请求
+  GitHubClient client = retrofit.create(GitHubClient.class);
+  //进行网络请求，并且获取请求结果
+  Call<List<GitHubRepo>> call = client.reposForUser("Xiao");
   // Callback 的泛型解释：经过 Gson 转换器通过此泛型对返回数据进行转换解析。
   call.enqueue(new Callback<List<GitHubRepo>>() {
       @Override
-      public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
+      public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response){
           //请求成功并返回结果在此进行处理，请求数据在 response.body() 里面（对应 Callback 泛型）
-          }
       }
   
       @Override
@@ -106,11 +105,13 @@ tags:
 
 - 请求方法参数：
 
-| 请求方法参数注解 | 解释                             |
-|:--------:|:------------------------------:|
-| @Body    | 将 Java 对象作为请求体（Request Body）发送 |
-| @Url     | 动态传入的 Url                      |
-| @Filed   | 将数据作为 Form 表单发送                |
+| 请求方法参数注解   | 解释                                                       |
+|:----------:|:--------------------------------------------------------:|
+| @Body      | 将 Java 对象进行解析作为请求体（Request Body）发送（当转换器为 GSON ，解析成 JSON） |
+| @Url       | 动态传入的 Url                                                |
+| @Filed     | 将数据作为 Form 表单发送                                          |
+| @Header    | 动态为请求加上头部（Request Header ）                               |
+| @HeaderMap | 动态为请求加上头部集合（Request Header ）                             |
 
   以下是对应的一些例子：
 
@@ -190,21 +191,24 @@ Api 的请求参数：一般来说，我们的 Api 请求方法是 GET 和 POST�
 public class ServiceGenerator {
     // App 中的 BaseUrl，若更改 Url，即可在此直接修改。
     private static final String BASE_URL = "https://api.github.com/";
+    // Gson 转换器
+      private static GsonConverterFactory gsonFactory = GsonConverterFactory.create(); 
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create());// Gson 转换器
+                    .addConverterFactory(gsonFactory);
 
     private static Retrofit retrofit = builder.build();
-	
-    private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()//自定义的登录拦截器
+    //自定义的登录拦截器
+    private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY);
-					
-    private static OkHttpClient.Builder httpClient =new OkHttpClient.Builder(); //使用 OKHttp 进行网络请求
+    //使用 OKHttp 进行网络请求
+    private static OkHttpClient.Builder httpClient =new OkHttpClient.Builder(); 
 
-      // Api 接口泛型封装，参数：带注解配置的 Api 请求接口，返回即可执行网络请求。
+    // Api 接口泛型封装，参数：带注解配置的 Api 请求接口，返回即可执行网络请求。
     public static <S> S createService(Class<S> serviceClass) {
-      	if (!httpClient.interceptors().contains(logging)) {//在此对 OKHttp 添加登录拦截器的拦截
+          //在此对 OKHttp 添加登录拦截器的拦截
+          if (!httpClient.interceptors().contains(logging)) {
             httpClient.addInterceptor(logging);
             builder.client(httpClient.build());
             retrofit = builder.build();
@@ -222,6 +226,99 @@ public class ServiceGenerator {
 GitHubClient client = ServiceGenerator.createService(GitHubClient.class);//带注解配置的 Api 请求接口
 ```
 
-当然，上面只是一个简单的封装，在 App 中的所有网络请求都会经过 ServiceGenerator 类的 createService(Class&lt;S&gt; serviceClass) 方法，还有 Retrofit 进行网络请求的是 OKHttp ，所有我们可以在此类加入 [OKHttp 的拦截器](https://github.com/square/okhttp/wiki/Interceptors) 进行对网络请求的**请求（Request）**和**返回（Response）**进行一些判断处理（是否登录等）。
+上面只是一个简单的封装，在 App 中的所有网络请求都会经过 ServiceGenerator 类的 createService(Class<S&dt; serviceClass) 方法，还有 Retrofit 进行网络请求的是 OKHttp ，所有我们可以在此类加入 [OKHttp 的拦截器](https://github.com/square/okhttp/wiki/Interceptors) 进行对网络请求的**请求（Request）**和**返回（Response）**进行一些判断处理（是否登录等）。
 
+##### 如何公用一个 OKHttpClient 对不同 Url 进行请求以及设置不同的拦截器。
 
+- OKHttp 只需要一个就行,多开会导致资源浪费，影响 App 性能。共用同一个 OKHttpClient 就是共用 RequestPool ，diskcache， routing logic 等等资源。
+
+- 不同拦截器，比如登录拦截器，资源访问拦截器，权限拦截器等，但是他们的 Url 都是以 BaseUrl 为基础，但是又不相同的。
+
+```java
+OkHttpClient baseOkHttpClient = new OkHttpClient();
+
+OkHttpClient okHttpClientV1 = baseOkHttpClient  
+        .newBuilder()
+        .followRedirects(false)
+        .build()
+
+Retrofit retrofitApiV1 = new Retrofit.Builder()  
+        .baseUrl("https://futurestud.io/v1/")
+        .client(okHttpClientV1)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+
+OkHttpClient okHttpClientV2 = baseOkHttpClient  
+        .newBuilder()
+        .addInterceptor(...)
+        .build()
+
+Retrofit retrofitApiV2 = new Retrofit.Builder()  
+        .baseUrl("https://futurestud.io/v2/")
+        .client(okHttpClientV2)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+```
+
+##### 同步请求与异步请求
+
+- **Retrofit 2 中的同步请求和异步请求的接口定义是一样的（没有区别），所以在使用 Retrofit 进行网络请求的时候，UI 线程（Main 线程）会阻塞。需要另开子线程进行网络请求（Retrofit 需要开发者自己实现异步）。**
+
+  以 Call<T&dt; 为接口方法的返回值，T 为根据返回数据的解析类型。
+
+  ```java
+  //请求接口定义
+  public interface TaskService {
+      @GET("/tasks")
+      Call<List<Task>> getTasks();
+  }
+  
+  //同步请求和异步请求（相同）
+  TaskService taskService = ServiceGenerator.createService(TaskService.class);  
+  Call<List<Task>> call = taskService.getTasks();  
+  call.enqueue(new Callback<List<Task>>() {  
+      @Override
+      public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+  
+      }
+  
+      @Override
+      public void onFailure(Call<List<Task>> call, Throwable t) {
+  
+      }
+  }
+  ```
+
+- Retrofit 1 中的同步请求接口方法返回值直接是经过解析后的值（对比 Retrofit 没有 Call 封装）；异步请求接口没有返回值（Void），但是在接口方法有接口回调 Callback<T&dt; cb ，在 Callback 的 onResponse 和 onFailure 回调方法处理结果。
+
+  ```java
+  //请求接口定义
+  public interface TaskService {  
+      @GET("/tasks")
+      void getTasks(Callback<List<Task>> cb);
+  }
+  
+  //同步请求
+  TaskService taskService = ServiceGenerator.createService(TaskService.class);  
+  List<Task> tasks = taskService.getTasks();  
+  
+  //异步请求
+  TaskService taskService = ServiceGenerator.createService(TaskService.class);  
+  taskService.getTasks(new Callback<List<Task>>() {  
+      @Override
+      public void success(List<Task> tasks, Response response) {
+  
+      }
+  
+      @Override
+      public void failure(RetrofitError error) {
+  
+      }
+  });
+  ```
+
+##### 获取原始的 Http 返回数据的方法。（Raw Response）
+
+- 上文提过，将 Call<T&dt; 的返回类型设置成 ResponsBody，可以取到响应体的内容。也就是转换器的解析内容。
+
+- 通过 response.raw() 获取原生返回数据（OKHttp 的 Response 内容）。
