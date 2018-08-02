@@ -1,0 +1,41 @@
+注意注意注意注意注意 ：CentOS 版本要求：CentOS6 64 位
+安装 wget ： yum -y install wget
+安装 SSR 脚本：wget -N --no-check-certificate https://softs.fun/Bash/ssr.sh && chmod +x ssr.sh && bash ssr.sh
+查看内核版本：uname -r
+CentOS6 修改内核：rpm -ivh http://xz.wn789.com/CentOSkernel/kernel-2.6.32-504.3.3.el6.x86_64.rpm --force
+查看内核是否修改：rpm -qa | grep kernel
+重启 VPS：reboot
+安装锐速破解版：wget -N --no-check-certificate https://raw.githubusercontent.com/wn789/serverspeeder/master/serverspeeder.sh
+锐速赋权执行：chmod +x serverspeeder.sh
+		bash serverspeeder.sh
+锐速常用的命令：
+service serverSpeeder start #启动
+service serverSpeeder stop #停止
+service serverSpeeder reload #重新加载配置
+service serverSpeeder restart #重启
+service serverSpeeder status #状态
+service serverSpeeder stats #统计
+service serverSpeeder renewLic #更新许可文件
+service serverSpeeder update #更新
+chattr -i /serverspeeder/etc/apx* && /serverspeeder/bin/serverSpeeder.sh uninstall -f #卸载
+
+博客
+yum install -y nginx
+mkdir blog
+chmod 775 -R /root/blog/
+vim /etc/nginx/nginx.conf
+server {
+      listen       80;
+      server_name  blog.awqingnian.xyz; # 填写个人域名
+      root         /root/blog;
+  }
+service nginx start
+
+yum install vsftpd -y
+service vsftpd enable
+service vsftpd start
+
+防火墙
+vim /etc/sysconfig/iptables
+-A INPUT -m state –state NEW -m tcp -p tcp –dport 80 -j ACCEPT 
+service iptables restart
