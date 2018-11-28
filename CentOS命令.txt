@@ -1,6 +1,6 @@
 注意注意注意注意注意 ：CentOS 版本要求：CentOS6 64 位
 安装 wget ： yum -y install wget
-安装 SSR 脚本：wget -N --no-check-certificate https://softs.fun/Bash/ssr.sh && chmod +x ssr.sh && bash ssr.sh
+安装 SSR 脚本：wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ssr.sh && chmod +x ssr.sh && bash ssr.sh
 查看内核版本：uname -r
 CentOS6 修改内核：rpm -ivh http://xz.wn789.com/CentOSkernel/kernel-2.6.32-504.3.3.el6.x86_64.rpm --force
 查看内核是否修改：rpm -qa | grep kernel
@@ -36,6 +36,7 @@ service vsftpd enable
 service vsftpd start
 
 防火墙
+永久关闭防火墙 chkconfig iptables off 
 vim /etc/sysconfig/iptables
 -A INPUT -m state –state NEW -m tcp -p tcp –dport 80 -j ACCEPT 
 service iptables restart
