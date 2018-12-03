@@ -43,6 +43,33 @@ tags:
   2. HashTable 和 HashMap 的功能差不多，但是它是性能安全的。
   3. LinkedHashMap 是 HashMap 的子类，保存插入顺序，也就是说它是有序的，可以通过 Iterator 迭代器遍历 LinkedHashMap。
   4. TreeMap实现 SortedMap 接口，内部有序，顺序是按照 Key 的升序排序，也可以自己实现排序的比较器（Comparable 接口）。用 Iterator 遍历也是有序的。
-- HashMap
+- [HashMap](https://tech.meituan.com/java_hashmap.html)
   1. 如果内存空间很多而又对时间效率要求很高，可以降低负载因子 Loadfactor 的值，降低了 Loadfactor 的值，负载降低，table 数组就容易扩容，但是每个数组上的链表就会相对短，查询就快；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值，这个值可以大于1。
   2. 而当链表长度太长（默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能，其中会用到红黑树的插入、删除、查找等算法。
+
+---
+### JAVA 代理
+  - 静态代理：代码 **运行之前** 代理类的 Class 编译文件就已经存在。
+  实现思路：通过代理者和被代理者实现同一接口，并且代理者种存在一个被代理者的实例，即调用方通过代理者间接调用被代理者的方法。
+  - 动态代理：代码 **运行过程** 通过反射机制直接生成代理者对象。
+  实现思路：通过 java.lang.reflect 的 Proxy 实现，有 3 个参数。
+  ClassLoder: 类加载器
+  Class<?>[]: 对象组
+  InvocationHandler: **调用处理器,无论何时调用代理对象的方法调用处理器的 invoke 方法都会被调用。**
+  ```java
+    public static Object newProxyInstance(ClassLoader loader,Class<?>[] interfaces, InvocationHandler h){}
+
+    public class DynamicProxy implements InvocationHandler{
+      private Object obj;//被代理的类引用
+
+      public DynamicProxy(Object obj){
+        this.obj = obj;
+      }
+
+      @Override
+      public Object invoke(Object proxy, Method method, Object[] args) throw Throwable{
+        Object result = method.invoke(obj, args);
+        return result;
+      }
+    }
+  ```
