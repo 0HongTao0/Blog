@@ -3,7 +3,28 @@ date: 2018-11-30 14.00
 tags:
 
 ------
+### JAVA 集合
+- Map
+  主要的实现类有：HashMap， HashTable， LinkedHashMap，TreeMap。
+  1. HashMap根据 Key 的 HashCode 来存储数据，只允许一个 Key 为 Null，但允许多条记录为 Null，HashMap 线程不安全。可以使用 Collections.synchronizedMap() 方法来使HashMap 具有线程安全，或者直接使用 **ConcurrentHashMap** 代替。
+  2. HashTable 和 HashMap 的功能差不多，但是它是性能安全的。
+  3. LinkedHashMap 是 HashMap 的子类，保存插入顺序，也就是说它是有序的，可以通过 Iterator 迭代器遍历 LinkedHashMap。
+  4. TreeMap实现 SortedMap 接口，内部有序，顺序是按照 Key 的升序排序，也可以自己实现排序的比较器（Comparable 接口）。用 Iterator 遍历也是有序的。
+- [HashMap](https://tech.meituan.com/java_hashmap.html)
+  1.  HashMap 按照 **Lazy-Load** 来进行初始化，通过 resize() 来进行初始化一个 HashMap 和对 HashMap 进行扩容。
+  2. 键值对在 HashMap 内的位置 index 取决于位运算 **i = (n -1) & hash（n 为 table 长度）**;
+  3. 如果内存空间很多而又对时间效率要求很高，可以降低负载因子 Loadfactor 的值，门限值降低，table 数组就容易扩容，但是每个数组上的链表就会相对短，查询就快；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子 loadFactor 的值，（loadFactor 可以大于1，但是建议不超过 0.75，默认值 0.75 符合大多数场景）。
+  4. 而当链表长度太长（ **默认超过8** ）时，链表就转换为 **红黑树** ，利用红黑树快速增删改查的特点提高 HashMap 的性能。
+  5. **门限值（threshold） = 负载因子(loadfactor) * 容量（capacity）**，在元素个数超过门限值时（size > threshold），调整 Map 的大小，table 的长度使用的是 2 次幂扩展(指长度扩为原来 2 倍)，同理根据门限值的计算公式可以计算出门限值也是原来 2 倍。 **扩容非常耗性能，所以在使用 HashMap 时最好给一个大致的 size，避免频繁扩容**。
+  6. 扩容对应的键的 hash 计算
+    - jdk 7：重新计算 hash 值来获取索引值。
+    - jdk 8：只需要看看原来的hash值新增的那个bit是1还是0就好了，是 **0** 的话索引 **不变** ，是 **1** 的话索引变成 **“原索引+oldCap”**
 
+    ![img](https://github.com/0HongTao0/Blog/blob/master/pic/HashMap_%E4%B8%8D%E5%90%8CJDK%E6%89%A9%E5%AE%B9%E6%AF%94%E8%BE%83.png?raw=true)
+  7. 线程安全问题：
+    HashMap 是线程不安全的，为什么呢？
+    并发的多线程使用场景中使用 HashMap 可能造成死循环，因为在 resize 过程中会导致出现环形链表。
+---
 ### JAVA 并发
 
 - 如何创建多线程？
@@ -35,17 +56,6 @@ tags:
   1. 锁是防止程序代码块中受并发访问而造成不安全的干扰，即保证任何时刻只能有一个线程执行被保护的代码。
   2. 大多数情况下是通过 synchronized 关键字来实现锁，在 JAVA 中每一个对象都存在一个锁，**synchronized 用在方法上**，是锁住当前对象的当前方法，多个线程访问这个对象的该方法会被阻塞；**synchronized(this)** 锁住的是当前对象的，多个线程访问这个对象会被阻塞；同理可得 **synchronized(object)** 锁的是 object 对象，多个线程访问该对象会被阻塞；（注意：锁的对象不能是 final 类，因为经过修改的 final 类会是一个新对象，无法获取同一个锁）
   3. 也可以通过 JAVA 提供的 Lock 类来实现锁。
------
-### JAVA 集合
-- Map
-  主要的实现类有：HashMap， HashTable， LinkedHashMap，TreeMap。
-  1. HashMap根据 Key 的 HashCode 来存储数据，只允许一个 Key 为 Null，但允许多条记录为 Null，HashMap 线程不安全。可以使用 Collections.synchronizedMap() 方法来使HashMap 具有线程安全，或者直接使用 **ConcurrentHashMap** 代替。
-  2. HashTable 和 HashMap 的功能差不多，但是它是性能安全的。
-  3. LinkedHashMap 是 HashMap 的子类，保存插入顺序，也就是说它是有序的，可以通过 Iterator 迭代器遍历 LinkedHashMap。
-  4. TreeMap实现 SortedMap 接口，内部有序，顺序是按照 Key 的升序排序，也可以自己实现排序的比较器（Comparable 接口）。用 Iterator 遍历也是有序的。
-- [HashMap](https://tech.meituan.com/java_hashmap.html)
-  1. 如果内存空间很多而又对时间效率要求很高，可以降低负载因子 Loadfactor 的值，降低了 Loadfactor 的值，负载降低，table 数组就容易扩容，但是每个数组上的链表就会相对短，查询就快；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值，这个值可以大于1。
-  2. 而当链表长度太长（默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能，其中会用到红黑树的插入、删除、查找等算法。
 
 ---
 ### JAVA 代理
