@@ -1,7 +1,8 @@
----
+
 title: Android 绘制过程
 date: 2018-08-02 10:01:25
 tags:
+
 ---
 
 ##### Android 的 setContentView 流程
@@ -42,7 +43,7 @@ tags:
     } else if (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) {
       mContentParent.removeAllViews(); // 删除所有子 View
     }
-  
+
     if (hasFeature(FEATURE_CONTENT_TRANSITIONS)) {
       final Scene newScene = Scene.getSceneForLayout(mContentParent, layoutResID,
                                                      getContext());
@@ -78,9 +79,9 @@ tags:
    }
    if (mContentParent == null) {
      mContentParent = generateLayout(mDecor); // mContentParent 的初始化
-  
+
      mDecor.makeOptionalFitsSystemWindows();
-  
+
      final DecorContentParent decorContentParent = (DecorContentParent) mDecor.findViewById(
        R.id.decor_content_parent);
      //...省略下面源码
@@ -92,7 +93,7 @@ tags:
   ```java
   // This is the top-level view of the window, containing the window decor.、
   private DecorView mDecor;
-  
+
   protected DecorView generateDecor(int featureId) {
    Context context;
    if (mUseDecorContext) {
@@ -120,20 +121,20 @@ tags:
     // 省略的代码大概就是读取 window 的 theme 属性参数进行配置设置
     //... 源码有点长 ，省略一点
     // 并且在 window 中把 decor 加载进来
-  
+
     // Inflate the window decor.
     int layoutResource;
     int features = getLocalFeatures();
     // 根据 features 的值进行逻辑判断，加载特定的 layoutResource （Decor 的标题 Layout 布局文件 Id）
     mDecor.startChanging();
     mDecor.onResourcesLoaded(mLayoutInflater, layoutResource);// 加载 Decor 的布局文件
-  
+
     // 这就是我们 setContentView 的布局文件加载到的父 ViewGroup 中（内容栏）
     ViewGroup contentParent = (ViewGroup)findViewById(ID_ANDROID_CONTENT);
     if (contentParent == null) {
       throw new RuntimeException("Window couldn't find content container view");
     }
-  
+
     if ((features & (1 << FEATURE_INDETERMINATE_PROGRESS)) != 0) {
       ProgressBar progress = getCircularProgressBar(false);
       if (progress != null) {
@@ -152,7 +153,7 @@ tags:
 
 - SpecMode 对 View 测量规格的影响如下。父 View 的测量过程会先测量子 View，是一个树形的的递归测量实现，所以先测量完子 View，等到没有子 View 的时候在测量父 View 本身。
 
-  
+
 
   |                     父 View 的 SpecMode                      |               子 View 的 LayoutParams               |                 子 View 的 Size 和 Mode 情况                 |
   | :----------------------------------------------------------: | :-------------------------------------------------: | :----------------------------------------------------------: |
@@ -163,7 +164,7 @@ tags:
   总结一下：
 
   - 子 View 的 LayoutParams 是确切的，那么无论父 View 是 specMode 是怎样的，子 View 的 size 都是开发设置的确切值，子 View 的 size 被确定，所以子 View 的 specMode = EXACTLY；
-  - 子 View 的 LayoutParams = match_parent（充满父 View）。当父 View 的 specMode 是 EXACTLY ，父 View 的 size 已经是确定的，那么子 View 的 size = 父 View 的 size，子 View 的 size 被确定，所以子 View 的 specMode = EXACTLY。当父 View 的 specMode 是 AT_MOST，也就是说父 View 的 size 是不确切的，但是父 View 有个最大 size 值，具体 size 需要根据子 View 的 size 确定，子 View 要充满父 View，应该子 View 的 size = 父 View 的 size，父 View 的大小不确定，子 View 要充满父 View，所以子 View 的 size 不确定，specMode 也应该是 AT_MOST。当父 View 的 specMode = UNSPECIFIED ，没有限制，不可能把子 View 的 size 设置成无限大，所以暂时设置成 0 ，specMode = UNSPECIFIED，父 View 无限制，父 View 的 size 无确切值和最大值，子 View 充满父 View，子 View 的 specMode 也应该是 UNSPECIFIED。 
+  - 子 View 的 LayoutParams = match_parent（充满父 View）。当父 View 的 specMode 是 EXACTLY ，父 View 的 size 已经是确定的，那么子 View 的 size = 父 View 的 size，子 View 的 size 被确定，所以子 View 的 specMode = EXACTLY。当父 View 的 specMode 是 AT_MOST，也就是说父 View 的 size 是不确切的，但是父 View 有个最大 size 值，具体 size 需要根据子 View 的 size 确定，子 View 要充满父 View，应该子 View 的 size = 父 View 的 size，父 View 的大小不确定，子 View 要充满父 View，所以子 View 的 size 不确定，specMode 也应该是 AT_MOST。当父 View 的 specMode = UNSPECIFIED ，没有限制，不可能把子 View 的 size 设置成无限大，所以暂时设置成 0 ，specMode = UNSPECIFIED，父 View 无限制，父 View 的 size 无确切值和最大值，子 View 充满父 View，子 View 的 specMode 也应该是 UNSPECIFIED。
   - 子 View 的LayoutParams = wrap_content（包含内容的大小）。当父 View 的 specMode = EXACTLY 或 AT_MOST 时，不管父 View 的大小是否确定，在这 2 种 specMode 中，都有一个确切值或者最大值，子 View 的大小要根据内容决定，子 View 的 size 大小又不能超过父 View，所以子 View 的 size 肯定是一个不确定的值，specMode 应该是 AT_MOST，size 应该是父 View 的确切值或者是最大值。当父 View 的 specMode = UNSPECIFIED，没有限制，不可能把子 View 的 size 设置成无限大，所以暂时设置成 0 ，父 View 无限制，父 View 的 size 无确切值和最大值，子 View 的 size 是由子 View 的内容决定，子 View 的 specMode 也应该是 UNSPECIFIED。
 
   计算 MeasureSpec 的源代码实现如下：
@@ -238,7 +239,7 @@ tags:
   public static int getDefaultSize(int size, int measureSpec) {
       // View 的默认大小。
       //View 无背景：由 android_minXXX 决定，View 有背景：android_minXXX 和 背景的宽/高取最大值
-      int result = size; 
+      int result = size;
       int specMode = MeasureSpec.getMode(measureSpec);// 测量得出的 View 的 mode
       int specSize = MeasureSpec.getSize(measureSpec);// 测量得出的 View 的 size
       switch (specMode) {
@@ -265,7 +266,7 @@ tags:
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
       int width; 	// view 的默认宽度
       int height; // view 的默认高度
-      
+
       int widthSpecMode = mewsureSpec.getMode(widthMeasureSpec);// 父 View 的宽度 specMode
       int widthSpecSize = mewsureSpec.getSzie(widthMeasureSpec);// 父 View 的宽度 specSize
       int heightSpecMode = mewsureSpec.getMode(heightMeasureSpec);// 父 View 的高度 specMode
@@ -304,6 +305,6 @@ tags:
   }
   ```
 
-  
+
 
 - 当调用完 setMeasuredDimension ，将测量的值传入，测量的过程就完成了。
