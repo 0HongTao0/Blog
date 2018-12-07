@@ -3,7 +3,7 @@ date: 2018-11-30 14.00
 tags:
 
 ------
-### JAVA 内存
+### [JAVA 内存](https://github.com/francistao/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md)
   - 静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。
   - 栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。
   - 堆区：存放 new 出来的对象实例，这个实例不使用时就会被 GC 回收。

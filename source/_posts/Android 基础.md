@@ -3,6 +3,19 @@ date: 2018-11-30 14.00
 tags:
 
 ------
+### [Android 内存优化](https://mp.weixin.qq.com/s/Z7oMv0IgKWNkhLon_hFakg?)
+  - **RAM优化** ：降低程序在运行时使用的内存，防止由于内存不足导致程序被系统杀死。（LMK 机制：LowMemoryKill）
+  - ROM 优化 : 主要是降低程序的占用空间，降低 Apk 的大小，防止偶遇 ROM 不足导致程序无法被安装。
+
+
+  - 内存泄漏的解决方法
+    1. [AndroidExcludedRefs](https://github.com/square/leakcanary/blob/master/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java) 列出很多由于系统原因导致引用无法释放的例子，通过 hack 的建议去修复。
+    2. 兜底回收内存，Activity 泄漏导致其引用的资源无法释放，兜底回收是指将 Activity 所持有的资源都回收掉（引用置 null），然后剩下的 Activity 就是个空壳。
+  - 降低运行时内存大小
+    1. 减少 bitmap 占用的内存，图片按需求的 View 大小加载。统一使用 bitmap 的加载器，在发生 OOM 时清除缓存。
+    2. 监控程序堆内存的使用率，达到程序的设定值则启动相关模块进行内存释放。
+    3. 多进程：将对于会引发内存泄漏或者占用内存过大的组件放置单独的进程中运行。
+---
 ### [Android Retrofit](https://square.github.io/retrofit/)
   - Retrofit 是一个网络请求的封装库，为什么说它只是个封装库，因为它本身并没有实现网络请求的逻辑，而是底层交给 OkHttp 进行实现网络请求，支持多种数据转换器（Converters，如 GSON, Jackson）。
   - 使用特性：
