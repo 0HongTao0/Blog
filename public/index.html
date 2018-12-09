@@ -271,7 +271,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><ul>
+        <h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="https://blog.csdn.net/v_july_v/article/details/6105630" target="_blank" rel="noopener">红黑树</a></h3><ul>
 <li>红黑树的基本介绍<br>是一种二叉查找树，满足二叉查找树的一般性质，并且每个节点上都存储一个表示颜色的字段（Red 或 Black），通过颜色限制确保没有一条路径比其他路径长 2 倍，相对平衡的一种树状结构。<br><strong>保证了红黑树的查找、插入、删除的时间复杂度最坏为O(log n)</strong></li>
 <li>红黑树的性质<ol>
 <li>根结点是黑色。</li>
@@ -338,10 +338,24 @@
     <article id="post-设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/27/设计模式/">设计模式</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/27/设计模式/" class="archive-article-date">
+  	<time datetime="2018-11-27T06:54:28.580Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-27</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 设计模式<br>date: 2018-11-30 14.00<br>tags:</p>
-
+        
       
 
       
@@ -456,10 +470,24 @@
     <article id="post-计算机网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/27/计算机网络/">计算机网络</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/27/计算机网络/" class="archive-article-date">
+  	<time datetime="2018-11-27T06:53:40.240Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-27</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 计算机网络<br>date: 2018-11-30 14.00<br>tags:</p>
-
+        
       
 
       
@@ -521,13 +549,54 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Content-Provider"><a href="#Content-Provider" class="headerlink" title="Content Provider"></a>Content Provider</h3><ul>
-<li>Content Provider 的一些理解<ol>
+        <h3 id="Android-内存优化"><a href="#Android-内存优化" class="headerlink" title="Android 内存优化"></a><a href="https://mp.weixin.qq.com/s/Z7oMv0IgKWNkhLon_hFakg?" target="_blank" rel="noopener">Android 内存优化</a></h3><ul>
+<li><strong>RAM优化</strong> ：降低程序在运行时使用的内存，防止由于内存不足导致程序被系统杀死。（LMK 机制：LowMemoryKill）</li>
+<li>ROM 优化 : 主要是降低程序的占用空间，降低 Apk 的大小，防止偶遇 ROM 不足导致程序无法被安装。</li>
+</ul>
+<ul>
+<li>内存泄漏的解决方法<ol>
+<li><a href="https://github.com/square/leakcanary/blob/master/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java" target="_blank" rel="noopener">AndroidExcludedRefs</a> 列出很多由于系统原因导致引用无法释放的例子，通过 hack 的建议去修复。</li>
+<li>兜底回收内存，Activity 泄漏导致其引用的资源无法释放，兜底回收是指将 Activity 所持有的资源都回收掉（引用置 null），然后剩下的 Activity 就是个空壳。</li>
+</ol>
+</li>
+<li>降低运行时内存大小<ol>
+<li>减少 bitmap 占用的内存，图片按需求的 View 大小加载。统一使用 bitmap 的加载器，在发生 OOM 时清除缓存。</li>
+<li>监控程序堆内存的使用率，达到程序的设定值则启动相关模块进行内存释放。</li>
+<li>多进程：将对于会引发内存泄漏或者占用内存过大的组件放置单独的进程中运行。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="Android-Retrofit"><a href="#Android-Retrofit" class="headerlink" title="Android Retrofit"></a><a href="https://square.github.io/retrofit/" target="_blank" rel="noopener">Android Retrofit</a></h3><ul>
+<li>Retrofit 是一个网络请求的封装库，为什么说它只是个封装库，因为它本身并没有实现网络请求的逻辑，而是底层交给 OkHttp 进行实现网络请求，支持多种数据转换器（Converters，如 GSON, Jackson）。</li>
+<li>使用特性：<ol>
+<li>通过接口注解来描述一个 HTTP 请求，Url 参数和 Request 参数。</li>
+<li>通过定义返回值为 Observable&lt;&gt; 类型，它还能异步框架 RxJava 结合，实现异步请求网络进行加载数据。</li>
+<li>支持获取原生的 HTTP 请求数据（Raw）。</li>
+</ol>
+</li>
+<li>源码实现<ol>
+<li>Retrofit 实例化是通过 Builder 设计模式来实现的，可以配置 Retrofit 的 <strong>根 URL</strong>， <strong>数据转换器</strong>， <strong>进行 HTTP 网络请求的客户端</strong>。</li>
+<li>通过一个接口和接口方法上的注解来定义一个 HTTP 网络请求的 API 接口，这个接口包含 HTTP 请求的类型,参数等信息。</li>
+<li>在底层 creat() 方法，Retrofit 通过 JAVA 动态代理来获取 HTTP 请求接口的代理对象，代理对象将 HTTP 请求接口方法上面的注解解析成一个 ServiceMethod 类型的对象，再通过该对象构建 OKHttp 的请求。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">create</span><span class="params">(<span class="keyword">final</span> Class&lt;T&gt; service)</span> </span>&#123;</span><br><span class="line">    Utils.validateServiceInterface(service);</span><br><span class="line">    <span class="keyword">if</span> (validateEagerly) &#123;</span><br><span class="line">      eagerlyValidateMethods(service);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (T) Proxy.newProxyInstance(service.getClassLoader(), <span class="keyword">new</span> Class&lt;?&gt;[] &#123; service &#125;,</span><br><span class="line">        <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">          <span class="keyword">private</span> <span class="keyword">final</span> Platform platform = Platform.get();</span><br><span class="line"></span><br><span class="line">          <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, @Nullable Object[] args)</span></span></span><br><span class="line"><span class="function">              <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">            <span class="comment">// If the method is a method from Object then defer to normal invocation.</span></span><br><span class="line">            <span class="keyword">if</span> (method.getDeclaringClass() == Object.class) &#123;</span><br><span class="line">              <span class="keyword">return</span> method.invoke(<span class="keyword">this</span>, args);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (platform.isDefaultMethod(method)) &#123;</span><br><span class="line">              <span class="keyword">return</span> platform.invokeDefaultMethod(method, service, proxy, args);</span><br><span class="line">            &#125;</span><br><span class="line">            ServiceMethod&lt;Object, Object&gt; serviceMethod =</span><br><span class="line">                (ServiceMethod&lt;Object, Object&gt;) loadServiceMethod(method);</span><br><span class="line">            OkHttpCall&lt;Object&gt; okHttpCall = <span class="keyword">new</span> OkHttpCall&lt;&gt;(serviceMethod, args);</span><br><span class="line">            <span class="keyword">return</span> serviceMethod.adapt(okHttpCall);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="Content-Provider"><a href="#Content-Provider" class="headerlink" title="Content Provider"></a>Content Provider</h3><ul>
+<li><a href="https://www.jianshu.com/p/c70ae80cf64d" target="_blank" rel="noopener">Content Provider 的一些理解</a><ol>
 <li>主要用于不同程序之间实现数据共享的功能，还可以通过 Content Provider 来实现跨进程之间的通信。在 Android 系统自带有很多 Content Provider（通信录，短信等）。</li>
 <li>在 Content Provider 的 回调方法中， onCreate() 方法是运行在主线程（UI线程）中，在 AMS 通过 ActivityThread 创建并回调 onCreate() 方法，不能再 onCreat() 方法中耗时操作。其他方法 query(), insert(), update(), delete() 等方法都是运行在应用 程序的 Binder 维护的线程池中，所以在其他方法耗时操作不会阻塞主线程。</li>
 </ol>
 </li>
 </ul>
+<hr>
+<h3 id="Dagger2"><a href="#Dagger2" class="headerlink" title="Dagger2"></a><a href="https://www.jianshu.com/p/24af4c102f62" target="_blank" rel="noopener">Dagger2</a></h3><ul>
+<li>Dagger 2 是一个依赖注入框架，在编译期间自动生成代码，负责依赖对象的创建。</li>
+<li>使用 Dagger 2 的好处就是项目解耦。</li>
+</ul>
+<hr>
 
       
 
@@ -590,7 +659,61 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="JAVA-并发"><a href="#JAVA-并发" class="headerlink" title="JAVA 并发"></a>JAVA 并发</h3><ul>
+        <h3 id="JAVA-内存"><a href="#JAVA-内存" class="headerlink" title="JAVA 内存"></a><a href="https://github.com/francistao/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md" target="_blank" rel="noopener">JAVA 内存</a></h3><ul>
+<li>静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。</li>
+<li>栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。</li>
+<li><p>堆区：存放 new 出来的对象实例，这个实例不使用时就会被 GC 回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</span><br><span class="line">  <span class="comment">//s1 和 0 内存都存放在堆中</span></span><br><span class="line">    <span class="keyword">int</span> s1 = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//mSample1 和 mSample1 所指的对象内存都存放在堆中</span></span><br><span class="line">    Sample mSample1 = <span class="keyword">new</span> Sample();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// s2 存在于栈中</span></span><br><span class="line">        <span class="keyword">int</span> s2 = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//引用 mSample2 存放于栈中，但 mSample2 指的对象内存存放于堆中</span></span><br><span class="line">        Sample mSample2 = <span class="keyword">new</span> Sample();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//引用 mSample3存放于栈中，但是 mSample3 所指对象存放于堆中，包括对象内部的成员变量 s1，mSample1 都在堆中</span></span><br><span class="line">Sample mSample3 = <span class="keyword">new</span> Sample();</span><br></pre></td></tr></table></figure>
+<p><strong>结论：局部变量的基本数据类型和引用存放于栈，引用所指的对象和类的成员变量存放于堆中（包括引用和引用指的对象）。</strong></p>
+</li>
+<li>Java 的内存管理<ol>
+<li>内存的分配由程序员来完成，即程序调用 new 方法或通过反射来分配内存。</li>
+<li>内存的回收是由垃圾回收器（GC）完成的，对象不再被引用，该对象的内存就被释放回收。</li>
+</ol>
+</li>
+<li>JAVA 内存泄漏<ol>
+<li>简单介绍：指的是在程序中，存在相对程序逻辑来说已经无用的对象，但是由于对象一直被引用者导致无法被垃圾回收器释放回收，这些对象会在程序运行期间一直占着内存。</li>
+<li><strong>内存泄漏的原因</strong><ul>
+<li><strong>静态集合</strong> 引用的所有对象 Object 在程序运行期间都无法释放。</li>
+<li>集合里面的对象属性被修改后再调用 remove() 方法无效（如 hashcode 不同无法 remove）。</li>
+<li><strong>监听器没有释放</strong> ，导致该监听的实体没有被释放。</li>
+<li><strong>数据库连接，网络连接和 IO 连接</strong> ，即涉及流操作都没有显式调用 close() 方法，GC 不会回收。</li>
+<li><strong>内部类和外部模块的引用</strong>，非静态的内部类和匿名类会隐式地持有一个他们外部类的引用，当外部类对象已经相对程序无作用时，非静态得内部类和匿名类引用着外部类，导致外部类对象无法被回收释放。</li>
+<li><strong>单例模式</strong> ， 单例模式在初始化后在程序运行期间都是存在的，如果单例模式持有外部对象得引用，则会导致外部对象无法释放回收。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="JAVA-集合"><a href="#JAVA-集合" class="headerlink" title="JAVA 集合"></a>JAVA 集合</h3><ul>
+<li>Map<br>主要的实现类有：HashMap， HashTable， LinkedHashMap，TreeMap。<ol>
+<li>HashMap根据 Key 的 HashCode 来存储数据，只允许一个 Key 为 Null，但允许多条记录为 Null，HashMap 线程不安全。可以使用 Collections.synchronizedMap() 方法来使HashMap 具有线程安全，或者直接使用 <strong>ConcurrentHashMap</strong> 代替。</li>
+<li>HashTable 和 HashMap 的功能差不多，但是它是性能安全的。</li>
+<li>LinkedHashMap 是 HashMap 的子类，保存插入顺序，也就是说它是有序的，可以通过 Iterator 迭代器遍历 LinkedHashMap。</li>
+<li>TreeMap实现 SortedMap 接口，内部有序，顺序是按照 Key 的升序排序，也可以自己实现排序的比较器（Comparable 接口）。用 Iterator 遍历也是有序的。</li>
+</ol>
+</li>
+<li><p><a href="https://tech.meituan.com/java_hashmap.html" target="_blank" rel="noopener">HashMap</a></p>
+<ol>
+<li>HashMap 按照 <strong>Lazy-Load</strong> 来进行初始化，通过 resize() 来进行初始化一个 HashMap 和对 HashMap 进行扩容。</li>
+<li>键值对在 HashMap 内的位置 index 取决于位运算 <strong>i = (n -1) &amp; hash（n 为 table 长度）</strong>;</li>
+<li>如果内存空间很多而又对时间效率要求很高，可以降低负载因子 Loadfactor 的值，门限值降低，table 数组就容易扩容，但是每个数组上的链表就会相对短，查询就快；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子 loadFactor 的值，（loadFactor 可以大于1，但是建议不超过 0.75，默认值 0.75 符合大多数场景）。</li>
+<li>而当链表长度太长（ <strong>默认超过8</strong> ）时，链表就转换为 <strong>红黑树</strong> ，利用红黑树快速增删改查的特点提高 HashMap 的性能。</li>
+<li><strong>门限值（threshold） = 负载因子(loadfactor) * 容量（capacity）</strong>，在元素个数超过门限值时（size &gt; threshold），调整 Map 的大小，table 的长度使用的是 2 次幂扩展(指长度扩为原来 2 倍)，同理根据门限值的计算公式可以计算出门限值也是原来 2 倍。 <strong>扩容非常耗性能，所以在使用 HashMap 时最好给一个大致的 size，避免频繁扩容</strong>。</li>
+<li><p>扩容对应的键的 hash 计算</p>
+<ul>
+<li>jdk 7：重新计算 hash 值来获取索引值。</li>
+<li>jdk 8：只需要看看原来的hash值新增的那个bit是1还是0就好了，是 <strong>0</strong> 的话索引 <strong>不变</strong> ，是 <strong>1</strong> 的话索引变成 <strong>“原索引+oldCap”</strong></li>
+</ul>
+<p><img src="https://github.com/0HongTao0/Blog/blob/master/pic/HashMap_%E4%B8%8D%E5%90%8CJDK%E6%89%A9%E5%AE%B9%E6%AF%94%E8%BE%83.png?raw=true" alt="img"></p>
+</li>
+<li>线程安全问题：<br>HashMap 是线程不安全的，为什么呢？<br>并发的多线程使用场景中使用 HashMap 可能造成死循环，因为在 resize 过程中会导致出现环形链表。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="JAVA-并发"><a href="#JAVA-并发" class="headerlink" title="JAVA 并发"></a>JAVA 并发</h3><ul>
 <li><p>如何创建多线程？</p>
 <p>主要有 2 种方法</p>
 <ol>
@@ -625,18 +748,9 @@
 </li>
 </ul>
 <hr>
-<h3 id="JAVA-集合"><a href="#JAVA-集合" class="headerlink" title="JAVA 集合"></a>JAVA 集合</h3><ul>
-<li>Map<br>主要的实现类有：HashMap， HashTable， LinkedHashMap，TreeMap。<ol>
-<li>HashMap根据 Key 的 HashCode 来存储数据，只允许一个 Key 为 Null，但允许多条记录为 Null，HashMap 线程不安全。可以使用 Collections.synchronizedMap() 方法来使HashMap 具有线程安全，或者直接使用 <strong>ConcurrentHashMap</strong> 代替。</li>
-<li>HashTable 和 HashMap 的功能差不多，但是它是性能安全的。</li>
-<li>LinkedHashMap 是 HashMap 的子类，保存插入顺序，也就是说它是有序的，可以通过 Iterator 迭代器遍历 LinkedHashMap。</li>
-<li>TreeMap实现 SortedMap 接口，内部有序，顺序是按照 Key 的升序排序，也可以自己实现排序的比较器（Comparable 接口）。用 Iterator 遍历也是有序的。</li>
-</ol>
-</li>
-<li>HashMap<ol>
-<li>如果内存空间很多而又对时间效率要求很高，可以降低负载因子 Loadfactor 的值，降低了 Loadfactor 的值，负载降低，table 数组就容易扩容，但是每个数组上的链表就会相对短，查询就快；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值，这个值可以大于1。</li>
-<li>而当链表长度太长（默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能，其中会用到红黑树的插入、删除、查找等算法。</li>
-</ol>
+<h3 id="JAVA-代理"><a href="#JAVA-代理" class="headerlink" title="JAVA 代理"></a>JAVA 代理</h3><ul>
+<li>静态代理：代码 <strong>运行之前</strong> 代理类的 Class 编译文件就已经存在。<br>实现思路：通过代理者和被代理者实现同一接口，并且代理者种存在一个被代理者的实例，即调用方通过代理者间接调用被代理者的方法。</li>
+<li>动态代理：代码 <strong>运行过程</strong> 通过反射机制直接生成代理者对象。<br>实现思路：通过 java.lang.reflect 的 Proxy 实现，有 3 个参数。<br>ClassLoder: 类加载器<br>Class&lt;?&gt;[]: 对象组<br>InvocationHandler: <strong>调用处理器,无论何时调用代理对象的方法调用处理器的 invoke 方法都会被调用。</strong><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,Class&lt;?&gt;[] interfaces, InvocationHandler h)</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Object obj;<span class="comment">//被代理的类引用</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.obj = obj;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> throw Throwable</span>&#123;</span><br><span class="line">    Object result = method.invoke(obj, args);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
@@ -759,7 +873,7 @@
 <p>  总结一下：</p>
 <ul>
 <li>子 View 的 LayoutParams 是确切的，那么无论父 View 是 specMode 是怎样的，子 View 的 size 都是开发设置的确切值，子 View 的 size 被确定，所以子 View 的 specMode = EXACTLY；</li>
-<li>子 View 的 LayoutParams = match_parent（充满父 View）。当父 View 的 specMode 是 EXACTLY ，父 View 的 size 已经是确定的，那么子 View 的 size = 父 View 的 size，子 View 的 size 被确定，所以子 View 的 specMode = EXACTLY。当父 View 的 specMode 是 AT_MOST，也就是说父 View 的 size 是不确切的，但是父 View 有个最大 size 值，具体 size 需要根据子 View 的 size 确定，子 View 要充满父 View，应该子 View 的 size = 父 View 的 size，父 View 的大小不确定，子 View 要充满父 View，所以子 View 的 size 不确定，specMode 也应该是 AT_MOST。当父 View 的 specMode = UNSPECIFIED ，没有限制，不可能把子 View 的 size 设置成无限大，所以暂时设置成 0 ，specMode = UNSPECIFIED，父 View 无限制，父 View 的 size 无确切值和最大值，子 View 充满父 View，子 View 的 specMode 也应该是 UNSPECIFIED。 </li>
+<li>子 View 的 LayoutParams = match_parent（充满父 View）。当父 View 的 specMode 是 EXACTLY ，父 View 的 size 已经是确定的，那么子 View 的 size = 父 View 的 size，子 View 的 size 被确定，所以子 View 的 specMode = EXACTLY。当父 View 的 specMode 是 AT_MOST，也就是说父 View 的 size 是不确切的，但是父 View 有个最大 size 值，具体 size 需要根据子 View 的 size 确定，子 View 要充满父 View，应该子 View 的 size = 父 View 的 size，父 View 的大小不确定，子 View 要充满父 View，所以子 View 的 size 不确定，specMode 也应该是 AT_MOST。当父 View 的 specMode = UNSPECIFIED ，没有限制，不可能把子 View 的 size 设置成无限大，所以暂时设置成 0 ，specMode = UNSPECIFIED，父 View 无限制，父 View 的 size 无确切值和最大值，子 View 充满父 View，子 View 的 specMode 也应该是 UNSPECIFIED。</li>
 <li><p>子 View 的LayoutParams = wrap_content（包含内容的大小）。当父 View 的 specMode = EXACTLY 或 AT_MOST 时，不管父 View 的大小是否确定，在这 2 种 specMode 中，都有一个确切值或者最大值，子 View 的大小要根据内容决定，子 View 的 size 大小又不能超过父 View，所以子 View 的 size 肯定是一个不确定的值，specMode 应该是 AT_MOST，size 应该是父 View 的确切值或者是最大值。当父 View 的 specMode = UNSPECIFIED，没有限制，不可能把子 View 的 size 设置成无限大，所以暂时设置成 0 ，父 View 无限制，父 View 的 size 无确切值和最大值，子 View 的 size 是由子 View 的内容决定，子 View 的 specMode 也应该是 UNSPECIFIED。</p>
 <p>计算 MeasureSpec 的源代码实现如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getChildMeasureSpec</span><span class="params">(<span class="keyword">int</span> spec, <span class="keyword">int</span> padding, <span class="keyword">int</span> childDimension)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(spec);</span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(spec);</span><br><span class="line">    <span class="keyword">int</span> size = Math.max(<span class="number">0</span>, specSize - padding);</span><br><span class="line">    <span class="keyword">int</span> resultSize = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> resultMode = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                resultSize = childDimension;</span><br><span class="line">                resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">                resultSize = size;</span><br><span class="line">                resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">                resultSize = size;</span><br><span class="line">                resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">            <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                resultSize = childDimension;</span><br><span class="line">                resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">                resultSize = size;</span><br><span class="line">                resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">                resultSize = size;</span><br><span class="line">                resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                resultSize = childDimension;</span><br><span class="line">                resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">                resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">                resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">                resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">                resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> MeasureSpec.makeMeasureSpec(resultSize, resultMode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -772,18 +886,17 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">                         getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>setMeasuredDimension 会设置 View 的宽/高的测量值。在 View 的子类中，要计算出 widthMeasureSpec 和 heightMeasureSpec 的实际值，再调用 super.measure 方法或者直接调用 setMeasuredDimension 方法设定 View 的宽/高测量值。</p>
 <p>getDefaultSize 方法是干嘛的呢？返回 View 测量后的大小。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// View 的默认大小。</span></span><br><span class="line">    <span class="comment">//View 无背景：由 android_minXXX 决定，View 有背景：android_minXXX 和 背景的宽/高取最大值</span></span><br><span class="line">    <span class="keyword">int</span> result = size; </span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);<span class="comment">// 测量得出的 View 的 mode</span></span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);<span class="comment">// 测量得出的 View 的 size</span></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// View 的默认大小。</span></span><br><span class="line">    <span class="comment">//View 无背景：由 android_minXXX 决定，View 有背景：android_minXXX 和 背景的宽/高取最大值</span></span><br><span class="line">    <span class="keyword">int</span> result = size;</span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);<span class="comment">// 测量得出的 View 的 mode</span></span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);<span class="comment">// 测量得出的 View 的 size</span></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>在自定义 View 中，要注意重写 onMeasure 方法，并设置 wrap_content 时的自身大小。</strong></p>
 <p>当 View 的 Layout_Params = wrap_content 时，由上面的表格知道，View 的 specMode 是 AT_MOST，由 getDefaultSize 方法逻辑知道，计算的最终大小是 specSize，而这个 specSize 就是父 View 的可使用的的大小，子 View 的 specSize = 父 View 的 specSize，就如同 match_parent 的效果。</p>
 <p>避免上面问题，重写 onMeasure 方法如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> width; 	<span class="comment">// view 的默认宽度</span></span><br><span class="line">    <span class="keyword">int</span> height; <span class="comment">// view 的默认高度</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> widthSpecMode = mewsureSpec.getMode(widthMeasureSpec);<span class="comment">// 父 View 的宽度 specMode</span></span><br><span class="line">    <span class="keyword">int</span> widthSpecSize = mewsureSpec.getSzie(widthMeasureSpec);<span class="comment">// 父 View 的宽度 specSize</span></span><br><span class="line">    <span class="keyword">int</span> heightSpecMode = mewsureSpec.getMode(heightMeasureSpec);<span class="comment">// 父 View 的高度 specMode</span></span><br><span class="line">    <span class="keyword">int</span> heightSpecSize = mewsureSpec.getSzie(heightMeasureSpec);<span class="comment">// 父 View 的高度 specSize</span></span><br><span class="line">    <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(width, height);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(width, heightSpecSize);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(widthSpecSize, height);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> width; 	<span class="comment">// view 的默认宽度</span></span><br><span class="line">    <span class="keyword">int</span> height; <span class="comment">// view 的默认高度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> widthSpecMode = mewsureSpec.getMode(widthMeasureSpec);<span class="comment">// 父 View 的宽度 specMode</span></span><br><span class="line">    <span class="keyword">int</span> widthSpecSize = mewsureSpec.getSzie(widthMeasureSpec);<span class="comment">// 父 View 的宽度 specSize</span></span><br><span class="line">    <span class="keyword">int</span> heightSpecMode = mewsureSpec.getMode(heightMeasureSpec);<span class="comment">// 父 View 的高度 specMode</span></span><br><span class="line">    <span class="keyword">int</span> heightSpecSize = mewsureSpec.getSzie(heightMeasureSpec);<span class="comment">// 父 View 的高度 specSize</span></span><br><span class="line">    <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(width, height);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(width, heightSpecSize);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(widthSpecSize, height);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>ViewGroup 的测量除了要测量自己，还要遍历它所有子 View 的 measure 过程，最后完成测量过程。具体遍历子 View 的过程是由 measureChildren 方法实现，调用子 View 的测量方法是 measureChild 方法实现。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChildren</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> size = mChildrenCount;</span><br><span class="line">    <span class="keyword">final</span> View[] children = mChildren;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;<span class="comment">// 遍历子 View</span></span><br><span class="line">        <span class="keyword">final</span> View child = children[i];</span><br><span class="line">        <span class="keyword">if</span> ((child.mViewFlags &amp; VISIBILITY_MASK) != GONE) &#123;</span><br><span class="line">            measureChild(child, widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChild</span><span class="params">(View child, <span class="keyword">int</span> parentWidthMeasureSpec,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">int</span> parentHeightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> LayoutParams lp = child.getLayoutParams();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,</span><br><span class="line">                mPaddingLeft + mPaddingRight, lp.width);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,</span><br><span class="line">                mPaddingTop + mPaddingBottom, lp.height);</span><br><span class="line">    child.measure(childWidthMeasureSpec, childHeightMeasureSpec); <span class="comment">// 调用子 View 的测量方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<ul>
-<li>当调用完 setMeasuredDimension ，将测量的值传入，测量的过程就完成了。</li>
+<li><p>当调用完 setMeasuredDimension ，将测量的值传入，测量的过程就完成了。</p>
+</li>
 </ul>
 
       

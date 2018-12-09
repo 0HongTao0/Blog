@@ -8,19 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com/child">
   <title>JAVA 基础 | 爱玩青年</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JAVA 并发 如何创建多线程？ 主要有 2 种方法  创建一个子类继承（extends） Thread 类，然后重写 run（）方法。 创建一个子类实现（implement）Runnable 接口，然后重写 run（）方法。   简述线程的五种状态  线程的五种状态分别是：新建（New），就绪（Runnable），运行（Running），终止（Dead），阻塞（Blocked）  线程没被阻塞从">
+  <meta name="description" content="JAVA 内存 静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。 栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。 堆区：存放 new 出来的对象实例，这个实例不使用时就会被 GC 回收。 123456789101112131415public class Sample &amp;#123;  //s1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JAVA 基础">
 <meta property="og:url" content="http://yoursite.com/child/2018/11/27/JAVA 基础/index.html">
 <meta property="og:site_name" content="爱玩青年">
-<meta property="og:description" content="JAVA 并发 如何创建多线程？ 主要有 2 种方法  创建一个子类继承（extends） Thread 类，然后重写 run（）方法。 创建一个子类实现（implement）Runnable 接口，然后重写 run（）方法。   简述线程的五种状态  线程的五种状态分别是：新建（New），就绪（Runnable），运行（Running），终止（Dead），阻塞（Blocked）  线程没被阻塞从">
+<meta property="og:description" content="JAVA 内存 静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。 栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。 堆区：存放 new 出来的对象实例，这个实例不使用时就会被 GC 回收。 123456789101112131415public class Sample &amp;#123;  //s1">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://github.com/0HongTao0/Blog/blob/master/pic/HashMap_%E4%B8%8D%E5%90%8CJDK%E6%89%A9%E5%AE%B9%E6%AF%94%E8%BE%83.png?raw=true">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5545289-1c4500c4a5adaafe.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/527/format/webp">
-<meta property="og:updated_time" content="2018-12-01T12:32:05.762Z">
+<meta property="og:updated_time" content="2018-12-07T00:28:24.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA 基础">
-<meta name="twitter:description" content="JAVA 并发 如何创建多线程？ 主要有 2 种方法  创建一个子类继承（extends） Thread 类，然后重写 run（）方法。 创建一个子类实现（implement）Runnable 接口，然后重写 run（）方法。   简述线程的五种状态  线程的五种状态分别是：新建（New），就绪（Runnable），运行（Running），终止（Dead），阻塞（Blocked）  线程没被阻塞从">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5545289-1c4500c4a5adaafe.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/527/format/webp">
+<meta name="twitter:description" content="JAVA 内存 静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。 栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。 堆区：存放 new 出来的对象实例，这个实例不使用时就会被 GC 回收。 123456789101112131415public class Sample &amp;#123;  //s1">
+<meta name="twitter:image" content="https://github.com/0HongTao0/Blog/blob/master/pic/HashMap_%E4%B8%8D%E5%90%8CJDK%E6%89%A9%E5%AE%B9%E6%AF%94%E8%BE%83.png?raw=true">
   
     <link rel="alternative" href="/atom.xml" title="爱玩青年" type="application/atom+xml">
   
@@ -166,7 +167,61 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="JAVA-并发"><a href="#JAVA-并发" class="headerlink" title="JAVA 并发"></a>JAVA 并发</h3><ul>
+        <h3 id="JAVA-内存"><a href="#JAVA-内存" class="headerlink" title="JAVA 内存"></a><a href="https://github.com/francistao/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md" target="_blank" rel="noopener">JAVA 内存</a></h3><ul>
+<li>静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。</li>
+<li>栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。</li>
+<li><p>堆区：存放 new 出来的对象实例，这个实例不使用时就会被 GC 回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</span><br><span class="line">  <span class="comment">//s1 和 0 内存都存放在堆中</span></span><br><span class="line">    <span class="keyword">int</span> s1 = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//mSample1 和 mSample1 所指的对象内存都存放在堆中</span></span><br><span class="line">    Sample mSample1 = <span class="keyword">new</span> Sample();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// s2 存在于栈中</span></span><br><span class="line">        <span class="keyword">int</span> s2 = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//引用 mSample2 存放于栈中，但 mSample2 指的对象内存存放于堆中</span></span><br><span class="line">        Sample mSample2 = <span class="keyword">new</span> Sample();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//引用 mSample3存放于栈中，但是 mSample3 所指对象存放于堆中，包括对象内部的成员变量 s1，mSample1 都在堆中</span></span><br><span class="line">Sample mSample3 = <span class="keyword">new</span> Sample();</span><br></pre></td></tr></table></figure>
+<p><strong>结论：局部变量的基本数据类型和引用存放于栈，引用所指的对象和类的成员变量存放于堆中（包括引用和引用指的对象）。</strong></p>
+</li>
+<li>Java 的内存管理<ol>
+<li>内存的分配由程序员来完成，即程序调用 new 方法或通过反射来分配内存。</li>
+<li>内存的回收是由垃圾回收器（GC）完成的，对象不再被引用，该对象的内存就被释放回收。</li>
+</ol>
+</li>
+<li>JAVA 内存泄漏<ol>
+<li>简单介绍：指的是在程序中，存在相对程序逻辑来说已经无用的对象，但是由于对象一直被引用者导致无法被垃圾回收器释放回收，这些对象会在程序运行期间一直占着内存。</li>
+<li><strong>内存泄漏的原因</strong><ul>
+<li><strong>静态集合</strong> 引用的所有对象 Object 在程序运行期间都无法释放。</li>
+<li>集合里面的对象属性被修改后再调用 remove() 方法无效（如 hashcode 不同无法 remove）。</li>
+<li><strong>监听器没有释放</strong> ，导致该监听的实体没有被释放。</li>
+<li><strong>数据库连接，网络连接和 IO 连接</strong> ，即涉及流操作都没有显式调用 close() 方法，GC 不会回收。</li>
+<li><strong>内部类和外部模块的引用</strong>，非静态的内部类和匿名类会隐式地持有一个他们外部类的引用，当外部类对象已经相对程序无作用时，非静态得内部类和匿名类引用着外部类，导致外部类对象无法被回收释放。</li>
+<li><strong>单例模式</strong> ， 单例模式在初始化后在程序运行期间都是存在的，如果单例模式持有外部对象得引用，则会导致外部对象无法释放回收。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="JAVA-集合"><a href="#JAVA-集合" class="headerlink" title="JAVA 集合"></a>JAVA 集合</h3><ul>
+<li>Map<br>主要的实现类有：HashMap， HashTable， LinkedHashMap，TreeMap。<ol>
+<li>HashMap根据 Key 的 HashCode 来存储数据，只允许一个 Key 为 Null，但允许多条记录为 Null，HashMap 线程不安全。可以使用 Collections.synchronizedMap() 方法来使HashMap 具有线程安全，或者直接使用 <strong>ConcurrentHashMap</strong> 代替。</li>
+<li>HashTable 和 HashMap 的功能差不多，但是它是性能安全的。</li>
+<li>LinkedHashMap 是 HashMap 的子类，保存插入顺序，也就是说它是有序的，可以通过 Iterator 迭代器遍历 LinkedHashMap。</li>
+<li>TreeMap实现 SortedMap 接口，内部有序，顺序是按照 Key 的升序排序，也可以自己实现排序的比较器（Comparable 接口）。用 Iterator 遍历也是有序的。</li>
+</ol>
+</li>
+<li><p><a href="https://tech.meituan.com/java_hashmap.html" target="_blank" rel="noopener">HashMap</a></p>
+<ol>
+<li>HashMap 按照 <strong>Lazy-Load</strong> 来进行初始化，通过 resize() 来进行初始化一个 HashMap 和对 HashMap 进行扩容。</li>
+<li>键值对在 HashMap 内的位置 index 取决于位运算 <strong>i = (n -1) &amp; hash（n 为 table 长度）</strong>;</li>
+<li>如果内存空间很多而又对时间效率要求很高，可以降低负载因子 Loadfactor 的值，门限值降低，table 数组就容易扩容，但是每个数组上的链表就会相对短，查询就快；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子 loadFactor 的值，（loadFactor 可以大于1，但是建议不超过 0.75，默认值 0.75 符合大多数场景）。</li>
+<li>而当链表长度太长（ <strong>默认超过8</strong> ）时，链表就转换为 <strong>红黑树</strong> ，利用红黑树快速增删改查的特点提高 HashMap 的性能。</li>
+<li><strong>门限值（threshold） = 负载因子(loadfactor) * 容量（capacity）</strong>，在元素个数超过门限值时（size &gt; threshold），调整 Map 的大小，table 的长度使用的是 2 次幂扩展(指长度扩为原来 2 倍)，同理根据门限值的计算公式可以计算出门限值也是原来 2 倍。 <strong>扩容非常耗性能，所以在使用 HashMap 时最好给一个大致的 size，避免频繁扩容</strong>。</li>
+<li><p>扩容对应的键的 hash 计算</p>
+<ul>
+<li>jdk 7：重新计算 hash 值来获取索引值。</li>
+<li>jdk 8：只需要看看原来的hash值新增的那个bit是1还是0就好了，是 <strong>0</strong> 的话索引 <strong>不变</strong> ，是 <strong>1</strong> 的话索引变成 <strong>“原索引+oldCap”</strong></li>
+</ul>
+<p><img src="https://github.com/0HongTao0/Blog/blob/master/pic/HashMap_%E4%B8%8D%E5%90%8CJDK%E6%89%A9%E5%AE%B9%E6%AF%94%E8%BE%83.png?raw=true" alt="img"></p>
+</li>
+<li>线程安全问题：<br>HashMap 是线程不安全的，为什么呢？<br>并发的多线程使用场景中使用 HashMap 可能造成死循环，因为在 resize 过程中会导致出现环形链表。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="JAVA-并发"><a href="#JAVA-并发" class="headerlink" title="JAVA 并发"></a>JAVA 并发</h3><ul>
 <li><p>如何创建多线程？</p>
 <p>主要有 2 种方法</p>
 <ol>
@@ -201,18 +256,9 @@
 </li>
 </ul>
 <hr>
-<h3 id="JAVA-集合"><a href="#JAVA-集合" class="headerlink" title="JAVA 集合"></a>JAVA 集合</h3><ul>
-<li>Map<br>主要的实现类有：HashMap， HashTable， LinkedHashMap，TreeMap。<ol>
-<li>HashMap根据 Key 的 HashCode 来存储数据，只允许一个 Key 为 Null，但允许多条记录为 Null，HashMap 线程不安全。可以使用 Collections.synchronizedMap() 方法来使HashMap 具有线程安全，或者直接使用 <strong>ConcurrentHashMap</strong> 代替。</li>
-<li>HashTable 和 HashMap 的功能差不多，但是它是性能安全的。</li>
-<li>LinkedHashMap 是 HashMap 的子类，保存插入顺序，也就是说它是有序的，可以通过 Iterator 迭代器遍历 LinkedHashMap。</li>
-<li>TreeMap实现 SortedMap 接口，内部有序，顺序是按照 Key 的升序排序，也可以自己实现排序的比较器（Comparable 接口）。用 Iterator 遍历也是有序的。</li>
-</ol>
-</li>
-<li>HashMap<ol>
-<li>如果内存空间很多而又对时间效率要求很高，可以降低负载因子 Loadfactor 的值，降低了 Loadfactor 的值，负载降低，table 数组就容易扩容，但是每个数组上的链表就会相对短，查询就快；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值，这个值可以大于1。</li>
-<li>而当链表长度太长（默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能，其中会用到红黑树的插入、删除、查找等算法。</li>
-</ol>
+<h3 id="JAVA-代理"><a href="#JAVA-代理" class="headerlink" title="JAVA 代理"></a>JAVA 代理</h3><ul>
+<li>静态代理：代码 <strong>运行之前</strong> 代理类的 Class 编译文件就已经存在。<br>实现思路：通过代理者和被代理者实现同一接口，并且代理者种存在一个被代理者的实例，即调用方通过代理者间接调用被代理者的方法。</li>
+<li>动态代理：代码 <strong>运行过程</strong> 通过反射机制直接生成代理者对象。<br>实现思路：通过 java.lang.reflect 的 Proxy 实现，有 3 个参数。<br>ClassLoder: 类加载器<br>Class&lt;?&gt;[]: 对象组<br>InvocationHandler: <strong>调用处理器,无论何时调用代理对象的方法调用处理器的 invoke 方法都会被调用。</strong><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,Class&lt;?&gt;[] interfaces, InvocationHandler h)</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Object obj;<span class="comment">//被代理的类引用</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.obj = obj;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> throw Throwable</span>&#123;</span><br><span class="line">    Object result = method.invoke(obj, args);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
