@@ -3,6 +3,28 @@ date: 2018-11-30 14:00
 tags:
 
 ------
+### == 和 equals() 和 hashcode() 的区别
+  == 是单纯地对比两个对象的地址值是否相等。 equals() 和 hashcode() 是 Object 的方法。
+  - equals() 方法
+    equals() 在 Object 类中的实现只是单纯地判断两个 **引用指的对象地址** 是否相等，但是在 String ，Integer 等包装类该方法是地对 **值** 判断是否相等。equals() 方法符合自反性，对称性，传递性和一致性的性质。Object 类下的 equals() 方法实现如下：
+    ```java
+    public boolean equals(Object obj) {
+        return (this == obj);
+    }
+    ```
+  - hashcode() 方法
+    hashcode() 方法返回的是对象的 hash code 的值，主要被用于 hash 类的集合。（HashTable, HashMap）Object 类下的 hashcode() 方法实现如下：返回的是对象的地址值。
+    ```java
+    //说明是一个本地方法，实现是根据本地机器相关（native 层实现）
+    public native int hashCode();
+    ```
+  - equals() 方法和 hashcode() 方法之间的关系(一种约定俗成的关系)
+    1. 两个对象的 equals() 判断返回 true，则它们的 hashcode() 方法返回的值相等
+    2. 两个对象的 hashcode() 方法返回的值相等，但是它们 equals() 判断并不一定相等。
+  - **如果 equals() 判断两个对象返回 true，而它们的 hashcode() 返回的值不等，会导致 HashMap 集合中存在相同的 Key 值，违反了 HashMap 中 Key 值不能重复性质。所以在使用 HashMap, HashSet 等集合中，需要符合实际情况判断时，需要重写 Key 对象的 equals() 和 hashcode() 方法。**
+
+  <!--more-->
+---
 ### [JAVA 内存](https://github.com/francistao/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md)
   - 静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。
   - 栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。
@@ -37,7 +59,7 @@ tags:
       - **数据库连接，网络连接和 IO 连接** ，即涉及流操作都没有显式调用 close() 方法，GC 不会回收。
       - **内部类和外部模块的引用**，非静态的内部类和匿名类会隐式地持有一个他们外部类的引用，当外部类对象已经相对程序无作用时，非静态得内部类和匿名类引用着外部类，导致外部类对象无法被回收释放。
       - **单例模式** ， 单例模式在初始化后在程序运行期间都是存在的，如果单例模式持有外部对象得引用，则会导致外部对象无法释放回收。
-<!--more-->
+
 ---
 ### JAVA 集合
 - Map

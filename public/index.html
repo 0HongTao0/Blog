@@ -165,27 +165,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="JAVA-内存"><a href="#JAVA-内存" class="headerlink" title="JAVA 内存"></a><a href="https://github.com/francistao/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md" target="_blank" rel="noopener">JAVA 内存</a></h3><ul>
-<li>静态存储区：存放静态数据，全局 static 数据和常量，编译器已经分配内存并且在程序运行期间都存在。</li>
-<li>栈区：存放方法内部的局部变量，在方法执行结束后局部变量的内存就被释放，效率高但是分配内存容量有限。</li>
-<li><p>堆区：存放 new 出来的对象实例，这个实例不使用时就会被 GC 回收。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</span><br><span class="line">  <span class="comment">//s1 和 0 内存都存放在堆中</span></span><br><span class="line">    <span class="keyword">int</span> s1 = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//mSample1 和 mSample1 所指的对象内存都存放在堆中</span></span><br><span class="line">    Sample mSample1 = <span class="keyword">new</span> Sample();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// s2 存在于栈中</span></span><br><span class="line">        <span class="keyword">int</span> s2 = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//引用 mSample2 存放于栈中，但 mSample2 指的对象内存存放于堆中</span></span><br><span class="line">        Sample mSample2 = <span class="keyword">new</span> Sample();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//引用 mSample3存放于栈中，但是 mSample3 所指对象存放于堆中，包括对象内部的成员变量 s1，mSample1 都在堆中</span></span><br><span class="line">Sample mSample3 = <span class="keyword">new</span> Sample();</span><br></pre></td></tr></table></figure>
-<p><strong>结论：局部变量的基本数据类型和引用存放于栈，引用所指的对象和类的成员变量存放于堆中（包括引用和引用指的对象）。</strong></p>
+        <h3 id="和-equals-和-hashcode-的区别"><a href="#和-equals-和-hashcode-的区别" class="headerlink" title="== 和 equals() 和 hashcode() 的区别"></a>== 和 equals() 和 hashcode() 的区别</h3><p>  == 是单纯地对比两个对象的地址值是否相等。 equals() 和 hashcode() 是 Object 的方法。</p>
+<ul>
+<li><p>equals() 方法<br>equals() 在 Object 类中的实现只是单纯地判断两个 <strong>引用指的对象地址</strong> 是否相等，但是在 String ，Integer 等包装类该方法是地对 <strong>值</strong> 判断是否相等。equals() 方法符合自反性，对称性，传递性和一致性的性质。Object 类下的 equals() 方法实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>Java 的内存管理<ol>
-<li>内存的分配由程序员来完成，即程序调用 new 方法或通过反射来分配内存。</li>
-<li>内存的回收是由垃圾回收器（GC）完成的，对象不再被引用，该对象的内存就被释放回收。</li>
+<li><p>hashcode() 方法<br>hashcode() 方法返回的是对象的 hash code 的值，主要被用于 hash 类的集合。（HashTable, HashMap）Object 类下的 hashcode() 方法实现如下：返回的是对象的地址值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//说明是一个本地方法，实现是根据本地机器相关（native 层实现）</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>equals() 方法和 hashcode() 方法之间的关系(一种约定俗成的关系)</p>
+<ol>
+<li>两个对象的 equals() 判断返回 true，则它们的 hashcode() 方法返回的值相等</li>
+<li>两个对象的 hashcode() 方法返回的值相等，但是它们 equals() 判断并不一定相等。</li>
 </ol>
 </li>
-<li>JAVA 内存泄漏<ol>
-<li>简单介绍：指的是在程序中，存在相对程序逻辑来说已经无用的对象，但是由于对象一直被引用者导致无法被垃圾回收器释放回收，这些对象会在程序运行期间一直占着内存。</li>
-<li><strong>内存泄漏的原因</strong><ul>
-<li><strong>静态集合</strong> 引用的所有对象 Object 在程序运行期间都无法释放。</li>
-<li>集合里面的对象属性被修改后再调用 remove() 方法无效（如 hashcode 不同无法 remove）。</li>
-<li><strong>监听器没有释放</strong> ，导致该监听的实体没有被释放。</li>
-<li><strong>数据库连接，网络连接和 IO 连接</strong> ，即涉及流操作都没有显式调用 close() 方法，GC 不会回收。</li>
-<li><strong>内部类和外部模块的引用</strong>，非静态的内部类和匿名类会隐式地持有一个他们外部类的引用，当外部类对象已经相对程序无作用时，非静态得内部类和匿名类引用着外部类，导致外部类对象无法被回收释放。</li>
-<li><strong>单例模式</strong> ， 单例模式在初始化后在程序运行期间都是存在的，如果单例模式持有外部对象得引用，则会导致外部对象无法释放回收。
+<li><p><strong>如果 equals() 判断两个对象返回 true，而它们的 hashcode() 返回的值不等，会导致 HashMap 集合中存在相同的 Key 值，违反了 HashMap 中 Key 值不能重复性质。所以在使用 HashMap, HashSet 等集合中，需要符合实际情况判断时，需要重写 Key 对象的 equals() 和 hashcode() 方法。</strong></p>
         
           <a class="article-more-a" href="/2018/11/30/JAVA 基础/#more">more >></a>
         
