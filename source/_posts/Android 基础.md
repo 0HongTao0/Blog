@@ -7,7 +7,6 @@ tags:
   - **RAM优化** ：降低程序在运行时使用的内存，防止由于内存不足导致程序被系统杀死。（LMK 机制：LowMemoryKill）
   - ROM 优化 : 主要是降低程序的占用空间，降低 Apk 的大小，防止偶遇 ROM 不足导致程序无法被安装。
 
-
   - 内存泄漏的解决方法
     1. [AndroidExcludedRefs](https://github.com/square/leakcanary/blob/master/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java) 列出很多由于系统原因导致引用无法释放的例子，通过 hack 的建议去修复。
     2. 兜底回收内存，Activity 泄漏导致其引用的资源无法释放，兜底回收是指将 Activity 所持有的资源都回收掉（引用置 null），然后剩下的 Activity 就是个空壳。
