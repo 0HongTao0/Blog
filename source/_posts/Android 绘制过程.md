@@ -17,7 +17,7 @@ tags:
     initWindowDecorActionBar();
   }
   ```
-
+<!--more-->
 - （3）但是呢，Window 是一个抽象类，具体需要去找出它的实现类。Window 是什么？官方一点来讲就是处理顶级窗口外观和行为策略的抽象基类。通俗来理解就是 Activity 通过 Window 来对 View 进行一系列的处理。并且通过源码的解释可以知道该抽象类的唯一实现类是 PhoneWindow.java 。
 
   ```java

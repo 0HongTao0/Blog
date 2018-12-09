@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱玩青年">
 <meta property="og:description" content="Android 的 setContentView 流程 （1）Activity 是 Android 中最直接的，也是最主要的显示界面，在 Activity 中，要通过 setContentView() 来设置当前 Activity 中的布局 Layout。  （2）setContentView() 是干嘛的？翻译过来，就是设置内容的 View 。如何设置？通过 Window 类来进行设置。通过源码">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-05T03:44:04.151Z">
+<meta property="og:updated_time" content="2018-12-09T11:01:57.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 绘制过程">
 <meta name="twitter:description" content="Android 的 setContentView 流程 （1）Activity 是 Android 中最直接的，也是最主要的显示界面，在 Activity 中，要通过 setContentView() 来设置当前 Activity 中的布局 Layout。  （2）setContentView() 是干嘛的？翻译过来，就是设置内容的 View 。如何设置？通过 Window 类来进行设置。通过源码">
@@ -170,6 +170,9 @@
 <li><p>（2）setContentView() 是干嘛的？翻译过来，就是设置内容的 View 。如何设置？通过 Window 类来进行设置。通过源码发现，Activity 的 setContentView 方法实际上是调用 Window 的 setContentView 方法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(@LayoutRes <span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">  getWindow().setContentView(layoutResID);</span><br><span class="line">  initWindowDecorActionBar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li><p>（3）但是呢，Window 是一个抽象类，具体需要去找出它的实现类。Window 是什么？官方一点来讲就是处理顶级窗口外观和行为策略的抽象基类。通俗来理解就是 Activity 通过 Window 来对 View 进行一系列的处理。并且通过源码的解释可以知道该抽象类的唯一实现类是 PhoneWindow.java 。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Abstract base class for a top-level window look and behavior policy.  An</span></span><br><span class="line"><span class="comment"> * instance of this class should be used as the top-level view added to the</span></span><br><span class="line"><span class="comment"> * window manager. It provides standard UI policies such as a background, title</span></span><br><span class="line"><span class="comment"> * area, default key processing, etc.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The only existing implementation of this abstract class is</span></span><br><span class="line"><span class="comment"> * android.view.PhoneWindow, which you should instantiate when needing a</span></span><br><span class="line"><span class="comment"> * Window.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -350,11 +353,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/11/27/JAVA 基础/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/11/30/数据结构和算法/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          JAVA 基础
+          数据结构和算法
         
       </div>
     </a>
