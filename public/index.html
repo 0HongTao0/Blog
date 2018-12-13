@@ -375,29 +375,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Android-内存优化"><a href="#Android-内存优化" class="headerlink" title="Android 内存优化"></a><a href="https://mp.weixin.qq.com/s/Z7oMv0IgKWNkhLon_hFakg?" target="_blank" rel="noopener">Android 内存优化</a></h3><ul>
-<li><strong>RAM优化</strong> ：降低程序在运行时使用的内存，防止由于内存不足导致程序被系统杀死。（LMK 机制：LowMemoryKill）</li>
-<li><p>ROM 优化 : 主要是降低程序的占用空间，降低 Apk 的大小，防止偶遇 ROM 不足导致程序无法被安装。</p>
-</li>
-<li><p>内存泄漏的解决方法</p>
-<ol>
-<li><a href="https://github.com/square/leakcanary/blob/master/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java" target="_blank" rel="noopener">AndroidExcludedRefs</a> 列出很多由于系统原因导致引用无法释放的例子，通过 hack 的建议去修复。</li>
-<li>兜底回收内存，Activity 泄漏导致其引用的资源无法释放，兜底回收是指将 Activity 所持有的资源都回收掉（引用置 null），然后剩下的 Activity 就是个空壳。</li>
+        <h3 id="IPC-机制（Inter-Process-Communication）"><a href="#IPC-机制（Inter-Process-Communication）" class="headerlink" title="IPC 机制（Inter-Process Communication）"></a>IPC 机制（Inter-Process Communication）</h3><p>  参考：《Android 开发艺术探索》</p>
+<ul>
+<li>Android 为什么需要跨进程通信？<br>Android 是基于 Linux 系统的，在 Linux 系统中进程之间是相互独立的（进程隔离），为了保证安全性和独立性，一个进程不能直接访问另一个进程的空间。</li>
+<li>Android 多进程：在 Android 中使用多进程的唯一方法是给四大组件在 AndroidMenifest 中指定 android:process 属性。</li>
+<li>Android 多进程带来的问题：<ol>
+<li>静态成员和单例模式完全失效</li>
+<li>线程同步机制完全失效</li>
+<li>SharedPreferences 的可靠性下降（不支持 2 个进程同时写入）</li>
+<li>Application 多次创建<br><strong>不同进程属于不同的虚拟机和不同的 Application，拥有不同的内存空间</strong></li>
 </ol>
 </li>
-<li>降低运行时内存大小<ol>
-<li><strong>减少 bitmap 占用的内存，图片按需求的 View 大小加载，监控重复图片。统一使用 bitmap 的加载器，在发生 OOM 时清除缓存。</strong></li>
-<li>监控程序堆内存的使用率，达到程序的设定值则启动相关模块进行内存释放。</li>
-<li>多进程：将对于会引发内存泄漏或者占用内存过大的组件放置单独的进程中运行。</li>
+<li>序列化<ol>
+<li>Serializable 接口：JAVA 提供的，耗能较大，通常用于储存设备序列化和网络传输序列化。</li>
+<li>Parcelable 接口：Android 提供的，效率高，主要用于内存的序列化。（Android Studio 有插件生成）</li>
 </ol>
 </li>
-<li><strong><a href="https://time.geekbang.org/column/article/71610" target="_blank" rel="noopener">内存优化策略</a></strong><br>并不是内存占用越少越好，而是要通过设备环境来进行综合考虑，在设备内存比较充足的环境下，尽可能地提供更好的用户体验；而在设备内存比较少的情况下则需要保证程序的正常运行，不让程序由于 OOM 而 Crash。<ol>
-<li>设备分级，低端机用户关闭耗内存的功能，比如动画，缓存等。</li>
-<li>缓存管理，建立一套完善的缓存管理机制，当系统内存不足时应该释放内存。</li>
-<li>减少进程数，空进程也会占用 10M 的内存。尤其是应用启动的进程还有保活进程。</li>
-<li>降低 APK 的大小。</li>
-</ol>
-</li>
+<li>AIDL 实现跨进程通信<br><img src="https://github.com/0HongTao0/Blog/blob/master/pic/AIDL%20Binder.jpg?raw=true" alt="AIDL 过程图"></li>
 </ul>
         
           <a class="article-more-a" href="/2018/11/30/Android 基础/#more">more >></a>

@@ -20,6 +20,7 @@ tags:
     1. Serializable 接口：JAVA 提供的，耗能较大，通常用于储存设备序列化和网络传输序列化。
     2. Parcelable 接口：Android 提供的，效率高，主要用于内存的序列化。（Android Studio 有插件生成）
   - AIDL 实现跨进程通信
+    ![AIDL 过程图](https://github.com/0HongTao0/Blog/blob/master/pic/AIDL%20Binder.jpg?raw=true)
 
 <!--more-->
 
