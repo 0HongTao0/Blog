@@ -5,6 +5,25 @@ date: 2018-11-30 14:00
 tags:
 
 ------
+### IPC 机制（Inter-Process Communication）
+  参考：《Android 开发艺术探索》
+  - Android 为什么需要跨进程通信？
+    Android 是基于 Linux 系统的，在 Linux 系统中进程之间是相互独立的（进程隔离），为了保证安全性和独立性，一个进程不能直接访问另一个进程的空间。
+  - Android 多进程：在 Android 中使用多进程的唯一方法是给四大组件在 AndroidMenifest 中指定 android:process 属性。
+  - Android 多进程带来的问题：
+    1. 静态成员和单例模式完全失效
+    2. 线程同步机制完全失效
+    3. SharedPreferences 的可靠性下降（不支持 2 个进程同时写入）
+    4. Application 多次创建
+    **不同进程属于不同的虚拟机和不同的 Application，拥有不同的内存空间**
+  - 序列化
+    1. Serializable 接口：JAVA 提供的，耗能较大，通常用于储存设备序列化和网络传输序列化。
+    2. Parcelable 接口：Android 提供的，效率高，主要用于内存的序列化。（Android Studio 有插件生成）
+  - AIDL 实现跨进程通信
+
+<!--more-->
+
+---
 ### [Android 内存优化](https://mp.weixin.qq.com/s/Z7oMv0IgKWNkhLon_hFakg?)
   - **RAM优化** ：降低程序在运行时使用的内存，防止由于内存不足导致程序被系统杀死。（LMK 机制：LowMemoryKill）
   - ROM 优化 : 主要是降低程序的占用空间，降低 Apk 的大小，防止偶遇 ROM 不足导致程序无法被安装。
@@ -23,7 +42,6 @@ tags:
     3. 减少进程数，空进程也会占用 10M 的内存。尤其是应用启动的进程还有保活进程。
     4. 降低 APK 的大小。
 
-<!--more-->
 ---
 ### [Android Retrofit](https://square.github.io/retrofit/)
   - Retrofit 是一个网络请求的封装库，为什么说它只是个封装库，因为它本身并没有实现网络请求的逻辑，而是底层交给 OkHttp 进行实现网络请求，支持多种数据转换器（Converters，如 GSON, Jackson）。
